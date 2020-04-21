@@ -1,23 +1,58 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Line from '@/views/Line.vue'
+import Bar from '@/views/Bar.vue'
+import Main from '@/views/Main.vue'
+import Pie from '@/views/Pie.vue'
+import Scatter from '@/views/Scatter.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
+    name: 'main',
+    component: Main
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/line',
+    name: 'line',
+    component: Line,
+    beforeEnter:(to,from,next)=>{
+      if(from.path != '/main'){
+        next('/main')
+      }else{
+        next()
+      }
+    }
+  },
+  {
+    path: '/bar',
+    name: 'bar',
+    component: Bar
+  },
+  {
+    path: '/main',
+    name: 'main',
+    component: Main
+  },
+  {
+    path: '/pie',
+    name: 'pie',
+    component: Pie,
+    beforeEnter:(to,from,next)=>{
+      if(from.path != '/main'){
+        next('/main')
+      }else{
+        next()
+      }
+    }
+  },
+  {
+    path: '/scatter',
+    name: 'scatter',
+    component: Scatter
+  },
 ]
 
 const router = new VueRouter({

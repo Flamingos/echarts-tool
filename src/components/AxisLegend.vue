@@ -59,6 +59,11 @@ export default {
 
       this.myChart.setOption(this.option, true);
     }
+  },
+  watch:{
+    option:function(){
+      
+    }
   }
 };
 </script>

@@ -73,6 +73,30 @@ export default {
       }
       this.myChart.setOption(this.option, true);
     }
+  },
+  watch:{
+    option:function(){
+      if(this.option.xAxis.data){
+        this.gridTransfer = true
+      }else{
+        this.gridTransfer = false
+      }
+      if(this.option.xAxis.position == 'bottom'){
+        if(this.option.yAxis.position == 'left'){
+          this.gridStyle = 1
+        }
+        if(this.option.yAxis.position == 'right'){
+          this.gridStyle = 2
+        }
+      }else if(this.option.xAxis.position == 'top'){
+        if(this.option.yAxis.position == 'left'){
+          this.gridStyle = 3
+        }
+        if(this.option.yAxis.position == 'right'){
+          this.gridStyle = 4
+        }
+      }
+    }
   }
 };
 </script>

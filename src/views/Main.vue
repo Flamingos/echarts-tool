@@ -36,16 +36,16 @@ export default {
     jump(type) {
       switch (type) {
         case "bar":
-          this.$router.push({ name: "bar", params: { type: "bar" } });
+          this.$router.push({ name: "bar", params: { type: "bar", isNew: true } });
           break;
         case "line":
-          this.$router.push({ name: "line", params: { type: "line" } });
+          this.$router.push({ name: "line", params: { type: "line", isNew: true } });
           break;
         case "pie":
-          this.$router.push({ name: "pie", params: { type: "pie" } });
+          this.$router.push({ name: "pie", params: { type: "pie", isNew: true } });
           break;
         case "scatter":
-          this.$router.push({ name: "scatter", params: { type: "scatter" } });
+          this.$router.push({ name: "scatter", params: { type: "scatter", isNew: true } });
           break;
       }
     }

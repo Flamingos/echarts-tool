@@ -70,6 +70,14 @@ export default {
       });
       this.myChart.setOption(this.option, true);
     }
+  },
+  watch:{
+    option:function(){
+      this.title.show = this.option.title.show !== undefined ? this.option.title.show : true
+      this.title.text = this.option.title.text !== undefined ? this.option.title.text : '示例'
+      this.title.subtext = this.option.title.subtext !== undefined ? this.option.title.subtext : '副标题'
+      this.title.titlePos = this.option.title.left !== undefined ? this.option.title.left : 'left'
+    }
   }
 };
 </script>

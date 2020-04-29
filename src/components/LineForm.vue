@@ -338,6 +338,30 @@ export default {
         this.seriesSelected.push(i);
       }
     }
+  },
+  watch:{
+    option:function(){
+      let xdata
+      if(this.option.xAxis.data){
+        xdata = this.option.xAxis.data
+      }else{
+        xdata = this.option.yAxis.data
+      }
+      this.chartData.xcoors = []
+      this.chartData.coordinates = []
+      this.legend.data = []
+      xdata.forEach(item=>{
+        this.chartData.xcoors.push({x:item})
+      })
+      this.option.series.forEach(item=>{
+        let coors = []
+        item.data.forEach(n=>{
+          coors.push({y:n})
+        })
+        this.legend.data.push(item.name)
+        this.chartData.coordinates.push({name:item.name,coors:coors})
+      })
+    }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <el-card class="axis-card" :body-style="{padding:'0 20px'}">
-      <span>图表样式</span>
+    <span>图表样式</span>
     <div class="card-item">
       <div>显示数值</div>
       <el-switch v-model="showlabel" active-color="#13ce66" @change="showLabelChange"></el-switch>
@@ -37,8 +37,8 @@ export default {
   methods: {
     showLabelChange() {
       for (let i = 0; i < this.option.series.length; i++) {
-        Object.assign(this.option.series[i].label, {
-          show: this.showlabel
+        Object.assign(this.option.series[i], {
+          label: { show: this.showlabel }
         });
       }
       this.myChart.setOption(this.option, true);
@@ -53,8 +53,8 @@ export default {
     },
     areaStyleChange() {
       for (let i = 0; i < this.option.series.length; i++) {
-        Object.assign(this.option.series[i].areaStyle, {
-          opacity: this.areaStyle / 2
+        Object.assign(this.option.series[i], {
+          areaStyle: { opacity: this.areaStyle / 2 }
         });
       }
       this.myChart.setOption(this.option, true);
@@ -72,16 +72,27 @@ export default {
         }
       }
       this.myChart.setOption(this.option, true);
+    },
+    
+  },
+  mounted(){
+  },
+  watch:{
+    option:function(){
+      this.smooth = this.option.series[0].smooth ? this.option.series[0].smooth : false
+      this.areaStyle = this.option.series[0].areaStyle.opacity ? true : false
+      this.showlabel = this.option.series[0].label.show ? this.option.series[0].label.show : false
+      this.step = this.option.series[0].step ? true : false
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-span{
-    font-size: 1.2em;
-    display: block;
-    margin: 10px 0;
+span {
+  font-size: 1.2em;
+  display: block;
+  margin: 10px 0;
 }
 .card-item {
   border-top: 1px solid #f0f0f0;

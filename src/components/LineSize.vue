@@ -44,6 +44,11 @@ export default {
     changeHeight() {
       this.myChart.resize({ height: this.height });
     }
+  },
+  watch:{
+    option:function(){
+      //this.legend.show = this.option.legend.show !== undefined ? this.option.legend.show : true
+    }
   }
 };
 </script>

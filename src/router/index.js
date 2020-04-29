@@ -5,6 +5,7 @@ import Bar from '@/views/Bar.vue'
 import Main from '@/views/Main.vue'
 import Pie from '@/views/Pie.vue'
 import Scatter from '@/views/Scatter.vue'
+import UserCenter from '@/views/UserCenter.vue'
 
 Vue.use(VueRouter)
 
@@ -18,13 +19,13 @@ const routes = [
     path: '/line',
     name: 'line',
     component: Line,
-    beforeEnter:(to,from,next)=>{
+    /*beforeEnter:(to,from,next)=>{
       if(from.path != '/main'){
         next('/main')
       }else{
         next()
       }
-    }
+    }*/
   },
   {
     path: '/bar',
@@ -52,6 +53,11 @@ const routes = [
     path: '/scatter',
     name: 'scatter',
     component: Scatter
+  },
+  {
+    path: '/usercenter',
+    name: 'userCenter',
+    component: UserCenter
   },
 ]
 

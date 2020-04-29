@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-row>
-      <el-col class="head">
-        图表编辑工具
-      </el-col>
-    </el-row>
+    <ChartHead></ChartHead>
     <el-row class="wrapper">
       <el-col class="menu">
         <el-tabs type="border-card">
@@ -30,10 +26,12 @@
         <LineForm :option="option" :myChart="myChart" :type="'line'"></LineForm>
       </el-col>
     </el-row>
+    <el-button class="save" type="primary" circle icon="el-icon-folder" @click="save()"></el-button>
   </div>
 </template>
 
 <script>
+import ChartHead from '@/components/ChartHead.vue'
 import Title from '@/components/Title.vue'
 import AxisLayout from '@/components/AxisLayout.vue'
 import AxisLegend from '@/components/AxisLegend.vue'
@@ -43,9 +41,10 @@ import LineForm from '@/components/LineForm.vue'
 import Legend from '@/components/Legend.vue'
 import CodeEditor from '@/components/CodeEditor.vue'
 export default {
-  components:{ Title,AxisLayout,AxisLegend,LineStyle,LineSize,LineForm,Legend,CodeEditor },
+  components:{ ChartHead,Title,AxisLayout,AxisLegend,LineStyle,LineSize,LineForm,Legend,CodeEditor },
   data() {
     return {
+      isNew: true,
       myChart: {}, //echarts实例
       option: {}, //存储图表配置
     };
@@ -54,7 +53,17 @@ export default {
     // 基于准备好的dom，初始化echarts实例
     //ref绑定，减少获取DOM节点的消耗
     this.myChart = this.$echarts.init(this.$refs.main);
-    this.drawLine();
+    this.isNew = this.$route.params.isNew
+    if(this.isNew){
+      this.drawLine();
+    }else{
+      let option = JSON.parse(localStorage.options)[this.$route.params.number].option
+      if(option){
+        this.option = option
+        this.myChart.setOption(this.option);
+      }
+    }
+    
   },
   methods: { 
     //配置代码option
@@ -132,19 +141,24 @@ export default {
       };
       this.myChart.setOption(this.option);
     },
+    save(){
+      if(!localStorage.options){
+        localStorage.options = JSON.stringify([])
+      }
+      let options = JSON.parse(localStorage.options)
+      if(this.isNew){
+        options.push({type:'line',option:this.option})
+      }else{
+        options[this.$route.params.number].option = this.option
+      }
+      localStorage.options = JSON.stringify(options)
+      this.$router.push({name:'userCenter'})
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.head{
-  color: white;
-  line-height: 3em;
-  font-size: 1em;
-  height: 3em;
-  padding-left: 1em;
-  background-color: rgba(53,137,255);
-}
 .wrapper{
   height: calc(100vh - 3em);
   min-width: 1300px;
@@ -173,5 +187,10 @@ export default {
 .aside{
   height: 100%;
   width: 410px;
+}
+.save{
+  position: fixed;
+  right: 10px;
+  bottom: 20px;
 }
 </style>

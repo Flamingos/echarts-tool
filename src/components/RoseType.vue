@@ -42,6 +42,11 @@ export default {
       this.roseType = value;
       this.roseShow();
     }
+  },
+  watch:{
+    option:function(){
+      //this.roseType = this.option.legend.show !== undefined ? this.option.legend.show : true
+    }
   }
 };
 </script>

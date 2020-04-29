@@ -24,9 +24,10 @@ import {
   Slider,
   CollapseItem,
   Collapse,
-  RadioButton
+  RadioButton,
+  Avatar
 } from 'element-ui';
-Vue.use(Row).use(Col).use(Table).use(TableColumn).use(Tabs).use(TabPane).use(Button).use(Radio).use(RadioGroup).use(Form).use(FormItem).use(Input).use(Dialog).use(Card).use(Switch).use(Slider).use(Collapse).use(CollapseItem).use(RadioButton)
+Vue.use(Row).use(Col).use(Table).use(TableColumn).use(Tabs).use(TabPane).use(Button).use(Radio).use(RadioGroup).use(Form).use(FormItem).use(Input).use(Dialog).use(Card).use(Switch).use(Slider).use(Collapse).use(CollapseItem).use(RadioButton).use(Avatar)
 
 Vue.prototype.$message = Message
 

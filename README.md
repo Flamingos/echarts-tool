@@ -24,4 +24,4 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 截图
-![](../src/images/img1.png) 
+![](https://github.com/Flamingos/echarts-tool/blob/master/src/images/img1.png) 

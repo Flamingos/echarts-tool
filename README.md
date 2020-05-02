@@ -49,4 +49,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 cd echartstool
 cnpm install
-npm run serve```
+npm run serve
+```

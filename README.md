@@ -46,6 +46,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 #### 环境
 * node
 #### 启动
-* cd echartstool
-* cnpm install
-* npm run serve
+`cd echartstool
+cnpm install
+npm run serve`

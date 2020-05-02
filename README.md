@@ -27,9 +27,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ![](https://github.com/Flamingos/echarts-tool/blob/master/src/images/img1.png) 
 
 ### 技术栈
-vue
-elementUI
-echarts
+* vue
+* elementUI
+* echarts
 
 ### 主要功能
 1. 图表绘制（柱状图，折线图，饼图，散点图）
@@ -39,5 +39,13 @@ echarts
 * 标题
 * 图表大小
 * 数据编辑
-- 代码生成
+* 代码生成
 2. 图表配置存储（localStorage）
+
+### 项目运行
+#### 环境
+* node
+#### 启动
+* cd echartstool
+* cnpm install
+* npm run serve

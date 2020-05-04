@@ -47,32 +47,41 @@ export default {
     },
     axisLabelRotate() {
       //坐标轴标签旋转角度
-      if (this.option.xAxis.data) {
-        Object.assign(this.option.xAxis.axisLabel, {
-          rotate: this.axisLabel.rotate
-        });
-      } else {
-        Object.assign(this.option.yAxis.axisLabel, {
-          rotate: this.axisLabel.rotate
-        });
-      }
+      if (this.option.xAxis) {
+        if (this.option.xAxis.data) {
+          Object.assign(this.option.xAxis.axisLabel, {
+            rotate: this.axisLabel.rotate
+          });
+        } else {
+          Object.assign(this.option.yAxis.axisLabel, {
+            rotate: this.axisLabel.rotate
+          });
+        }
 
-      this.myChart.setOption(this.option, true);
+        this.myChart.setOption(this.option, true);
+      }
     }
   },
-  watch:{
-    option:function(){
-      
+  watch: {
+    option: function() {
+      let axislabel = {};
+      if (this.option.xAxis.data) {
+        axislabel = this.option.xAxis.axisLabel;
+      } else {
+        axislabel = this.option.yAxis.axisLabel;
+      }
+      this.axisLabel.show = axislabel.show;
+      this.axisLabel.rotate = axislabel.rotate;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-span{
-    font-size: 1.2em;
-    display: block;
-    margin: 10px 0;
+span {
+  font-size: 1.2em;
+  display: block;
+  margin: 10px 0;
 }
 .card-item {
   border-top: 1px solid #f0f0f0;

@@ -80,25 +80,42 @@ export default {
       this.myChart.setOption(this.option, true);
     },
     changeLeft() {
-      Object.assign(this.option.legend, {
-        left: this.left + "%"
-      });
-      this.myChart.setOption(this.option, true);
+      if (this.option.legend) {
+        Object.assign(this.option.legend, {
+          left: this.left + "%"
+        });
+        this.myChart.setOption(this.option, true);
+      }
     },
     changeTop() {
-      Object.assign(this.option.legend, {
-        top: this.top + "%"
-      });
-      this.myChart.setOption(this.option, true);
+      if (this.option.legend) {
+        Object.assign(this.option.legend, {
+          top: this.top + "%"
+        });
+        this.myChart.setOption(this.option, true);
+      }
     }
   },
-  watch:{
-    option:function(){
-      this.show = this.option.legend.show !== undefined ? this.option.legend.show : true
-      this.left = this.option.legend.left !== undefined ? Number.parseInt(this.option.legend.left.split('%')[0]) : 10
-      this.top = this.option.legend.top !== undefined ? Number.parseInt(this.option.legend.top.split('%')[0]) : 0
-      this.orient = this.option.legend.orient !== undefined ? this.option.legend.orient : 'horizontal'
-      this.type = this.option.legend.type !== undefined ? this.option.legend.type : 'plain'
+  watch: {
+    option: function() {
+      this.show =
+        this.option.legend.show !== undefined ? this.option.legend.show : true;
+      this.left =
+        this.option.legend.left !== undefined
+          ? Number.parseInt(this.option.legend.left.split("%")[0])
+          : 10;
+      this.top =
+        this.option.legend.top !== undefined
+          ? Number.parseInt(this.option.legend.top.split("%")[0])
+          : 0;
+      this.orient =
+        this.option.legend.orient !== undefined
+          ? this.option.legend.orient
+          : "horizontal";
+      this.type =
+        this.option.legend.type !== undefined
+          ? this.option.legend.type
+          : "plain";
     }
   }
 };

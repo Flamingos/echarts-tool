@@ -1,6 +1,6 @@
 <template>
   <el-card class="axis-card" :body-style="{padding:'0 20px'}">
-      <span>图表大小</span>
+    <span>图表大小</span>
     <div class="card-item">
       <div>图表宽度</div>
       <el-slider
@@ -72,22 +72,26 @@ export default {
       this.myChart.resize({ height: this.size.height });
     },
     changeInner(value) {
-      this.option.series[0].radius[0] = value + "%";
-      this.myChart.setOption(this.option, true);
+      if (this.option.series[0]) {
+        this.option.series[0].radius[0] = value + "%";
+        this.myChart.setOption(this.option, true);
+      }
     },
     changeOutter(value) {
-      this.option.series[0].radius[1] = value + "%";
-      this.myChart.setOption(this.option, true);
+      if (this.option.series[0]) {
+        this.option.series[0].radius[1] = value + "%";
+        this.myChart.setOption(this.option, true);
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-span{
-    font-size: 1.2em;
-    display: block;
-    margin: 10px 0;
+span {
+  font-size: 1.2em;
+  display: block;
+  margin: 10px 0;
 }
 .card-item {
   border-top: 1px solid #f0f0f0;

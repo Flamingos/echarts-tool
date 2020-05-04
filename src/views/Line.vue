@@ -5,15 +5,15 @@
       <el-col class="menu">
         <el-tabs type="border-card">
           <el-tab-pane label="显示相关">
-            <AxisLayout :option='option' :myChart='myChart'></AxisLayout>
-            <AxisLegend :option='option' :myChart='myChart'></AxisLegend>
-            <Legend :option='option' :myChart='myChart'></Legend>
+            <AxisLayout :option="option" :myChart="myChart"></AxisLayout>
+            <AxisLegend :option="option" :myChart="myChart"></AxisLegend>
+            <Legend :option="option" :myChart="myChart"></Legend>
             <Title :option="option" :myChart="myChart"></Title>
             <LineStyle :option="option" :myChart="myChart"></LineStyle>
             <LineSize :option="option" :myChart="myChart"></LineSize>
           </el-tab-pane>
           <el-tab-pane label="查看代码">
-            <CodeEditor :option='option'></CodeEditor>
+            <CodeEditor :option="option"></CodeEditor>
           </el-tab-pane>
         </el-tabs>
 
@@ -26,58 +26,95 @@
         <LineForm :option="option" :myChart="myChart" :type="'line'"></LineForm>
       </el-col>
     </el-row>
-    <el-button class="save" type="primary" circle icon="el-icon-folder" @click="save()"></el-button>
+    <Reset @reset="reset"></Reset>
+    <Save :option="option" :isNew="isNew"></Save>
   </div>
 </template>
 
 <script>
-import ChartHead from '@/components/ChartHead.vue'
-import Title from '@/components/Title.vue'
-import AxisLayout from '@/components/AxisLayout.vue'
-import AxisLegend from '@/components/AxisLegend.vue'
-import LineStyle from '@/components/LineStyle.vue'
-import LineSize from '@/components/LineSize.vue'
-import LineForm from '@/components/LineForm.vue'
-import Legend from '@/components/Legend.vue'
-import CodeEditor from '@/components/CodeEditor.vue'
+import ChartHead from "@/components/ChartHead.vue";
+import Title from "@/components/Title.vue";
+import AxisLayout from "@/components/AxisLayout.vue";
+import AxisLegend from "@/components/AxisLegend.vue";
+import LineStyle from "@/components/LineStyle.vue";
+import LineSize from "@/components/LineSize.vue";
+import LineForm from "@/components/LineForm.vue";
+import Legend from "@/components/Legend.vue";
+import CodeEditor from "@/components/CodeEditor.vue";
+import Save from "@/components/Save.vue";
+import Reset from "@/components/Reset.vue";
 export default {
-  components:{ ChartHead,Title,AxisLayout,AxisLegend,LineStyle,LineSize,LineForm,Legend,CodeEditor },
+  components: {
+    ChartHead,
+    Title,
+    AxisLayout,
+    AxisLegend,
+    LineStyle,
+    LineSize,
+    LineForm,
+    Legend,
+    CodeEditor,
+    Save,
+    Reset
+  },
   data() {
     return {
       isNew: true,
       myChart: {}, //echarts实例
-      option: {}, //存储图表配置
+      option: {} //存储图表配置
     };
   },
   mounted() {
     // 基于准备好的dom，初始化echarts实例
     //ref绑定，减少获取DOM节点的消耗
     this.myChart = this.$echarts.init(this.$refs.main);
-    this.isNew = this.$route.params.isNew
-    if(this.isNew){
-      this.drawLine();
-    }else{
-      let option = JSON.parse(localStorage.options)[this.$route.params.number].option
-      if(option){
-        this.option = option
-        this.myChart.setOption(this.option);
-      }
-    }
-    
   },
-  methods: { 
+  activated() {
+    this.init();
+  },
+  methods: {
     //配置代码option
+    init() {
+      this.isNew = this.$route.params.isNew;
+      if (this.isNew) {
+        if (sessionStorage[this.$route.params.type]) {
+          this.option = JSON.parse(sessionStorage[this.$route.params.type]);
+          this.myChart.setOption(this.option);
+        } else {
+          this.drawLine();
+        }
+      } else {
+        let option = JSON.parse(localStorage.options)[this.$route.params.number]
+          .option;
+        if (option) {
+          this.option = option;
+          this.myChart.setOption(this.option);
+        }
+      }
+    },
+    reset() {
+      console.log("reset");
+      this.drawLine();
+    },
     drawLine() {
       this.showline = true;
       this.option = {
         title: {
+          show:true,
           text: "示例",
           subtext: "副标题",
           left: "left"
         },
         tooltip: {},
         grid: {},
-        legend: { data: ['one','two'], left: '10%' },
+        legend: {
+          show: true,
+          data: ["one", "two"],
+          left: "10%",
+          top: "0%",
+          orient: "horizontal",
+          type: "plain"
+        },
         toolbox: {
           feature: {
             saveAsImage: {}
@@ -89,20 +126,24 @@ export default {
           axisLabel: {
             rotate: 0,
             interval: 0,
-            inside: false
-          }
+            inside: false,
+            show: true
+          },
+          position: "bottom"
         },
         yAxis: {
           boundaryGap: false,
           axisLabel: {
             rotate: 0,
             interval: 0,
-            inside: false
-          }
+            inside: false,
+            show: true
+          },
+          position: "left"
         },
         series: [
           {
-            name:'one',
+            name: "one",
             type: "line",
             areaStyle: { opacity: 0 },
             smooth: false,
@@ -113,7 +154,7 @@ export default {
             data: [5, 20, 36, 10, 10, 20]
           },
           {
-            name:'two',
+            name: "two",
             type: "line",
             areaStyle: { opacity: 0 },
             smooth: false,
@@ -122,44 +163,30 @@ export default {
             },
             step: "",
             data: [20, 10, 50, 45, 38, 9]
-          },
-          /*{
-            name:'three',
-            type: "pie",
-            roseType: "",
-            radius: [0, '30%'],
-        center: ['75%', '25%'],
-            data: [
-              { name: "直接访问", value: "335" },
-              { name: "邮件营销", value: "310" },
-              { name: "联盟广告", value: "234" },
-              { name: "视频广告", value: "135" },
-              { name: "搜索引擎", value: "154" }
-            ]
-          }*/
+          }
         ]
       };
       this.myChart.setOption(this.option);
     },
-    save(){
-      if(!localStorage.options){
-        localStorage.options = JSON.stringify([])
+    save() {
+      if (!localStorage.options) {
+        localStorage.options = JSON.stringify([]);
       }
-      let options = JSON.parse(localStorage.options)
-      if(this.isNew){
-        options.push({type:'line',option:this.option})
-      }else{
-        options[this.$route.params.number].option = this.option
+      let options = JSON.parse(localStorage.options);
+      if (this.isNew) {
+        options.push({ type: this.$route.params.type, option: this.option });
+      } else {
+        options[this.$route.params.number].option = this.option;
       }
-      localStorage.options = JSON.stringify(options)
-      this.$router.push({name:'userCenter'})
+      localStorage.options = JSON.stringify(options);
+      this.$router.push({ name: "userCenter" });
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.wrapper{
+.wrapper {
   height: calc(100vh - 3em);
   min-width: 1300px;
 }
@@ -184,11 +211,11 @@ export default {
   width: calc(100vw - 680px);
   background: rgba(178, 205, 235, 0.2);
 }
-.aside{
+.aside {
   height: 100%;
   width: 410px;
 }
-.save{
+.save {
   position: fixed;
   right: 10px;
   bottom: 20px;

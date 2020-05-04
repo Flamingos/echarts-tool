@@ -19,6 +19,9 @@ const routes = [
     path: '/line',
     name: 'line',
     component: Line,
+    meta:{
+      keepAlive:true
+    }
     /*beforeEnter:(to,from,next)=>{
       if(from.path != '/main'){
         next('/main')
@@ -30,7 +33,10 @@ const routes = [
   {
     path: '/bar',
     name: 'bar',
-    component: Bar
+    component: Bar,
+    meta:{
+      keepAlive:true
+    }
   },
   {
     path: '/main',
@@ -41,23 +47,32 @@ const routes = [
     path: '/pie',
     name: 'pie',
     component: Pie,
-    beforeEnter:(to,from,next)=>{
+    meta:{
+      keepAlive:true
+    },
+    /*beforeEnter:(to,from,next)=>{
       if(from.path != '/main'){
         next('/main')
       }else{
         next()
       }
-    }
+    }*/
   },
   {
     path: '/scatter',
     name: 'scatter',
-    component: Scatter
+    component: Scatter,
+    meta:{
+      keepAlive:true
+    }
   },
   {
     path: '/usercenter',
     name: 'userCenter',
-    component: UserCenter
+    component: UserCenter,
+    meta:{
+      keepAlive:false
+    }
   },
 ]
 

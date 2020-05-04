@@ -2,7 +2,8 @@
   <div class="container">
       <div class="card" v-for="(item,index) in options" :key="index" @click="goChart(index,item.type)">
       <el-card shadow="hover" class="card" :body-style="{ padding: '0px' }">
-        <span>{{index}}{{item.type}}</span>
+        <h2 class="title">{{item.type}}</h2>
+        <span>{{index}}</span>
       </el-card>
     </div>
   </div>
@@ -39,10 +40,14 @@ export default {
 <style lang="scss" scoped>
 .container{
     padding: 100px;
+    background-color: rgba(53, 137, 255);
 }
 .card{
+  margin: 0 20px;
+    display: inline-block;
     width: 100px;
     height: 100px;
     cursor: pointer;
+    text-align: center;
 }
 </style>

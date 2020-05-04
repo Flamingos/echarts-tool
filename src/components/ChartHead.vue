@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col class="head">
-        <span>图表编辑工具</span>
+        <span @click="toMain">图表编辑工具</span>
         <span @click="toUser()"><el-avatar id="avatar">A</el-avatar></span>
       </el-col>
     </el-row>
@@ -19,6 +19,9 @@ export default {
   methods:{
       toUser(){
           this.$router.push({name:'userCenter'})
+      },
+      toMain(){
+        this.$router.push({name:'main'})
       }
   }
 };
@@ -33,6 +36,9 @@ export default {
   height: 3em;
   padding-left: 1em;
   background-color: rgba(53, 137, 255);
+}
+.head span:nth-child(1){
+  cursor: pointer;
 }
 #avatar {
   position: absolute;

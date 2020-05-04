@@ -63,6 +63,10 @@ export default {
         });
       } else {
         let axisData = this.option.xAxis.data || this.option.yAxis.data;
+        let xRotate = this.option.xAxis.axisLabel.rotate
+        let xShow = this.option.xAxis.axisLabel.show
+        let yRotate = this.option.yAxis.axisLabel.rotate
+        let yShow = this.option.yAxis.axisLabel.show
         delete this.option.xAxis.data;
         delete this.option.yAxis.data;
         if (this.gridTransfer) {
@@ -70,6 +74,10 @@ export default {
         } else {
           Object.assign(this.option.yAxis, { data: axisData });
         }
+        this.option.xAxis.axisLabel.rotate = yRotate
+        this.option.xAxis.axisLabel.show = yShow
+        this.option.yAxis.axisLabel.rotate = xRotate
+        this.option.yAxis.axisLabel.show = xShow
       }
       this.myChart.setOption(this.option, true);
     }

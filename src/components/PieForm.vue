@@ -139,6 +139,12 @@ export default {
     dragUpdate() {
       this.tipShow = true;
     }
+  },
+  watch:{
+    option(){
+      this.legend.data = this.option.legend.data
+      this.chartData.data = this.option.series[0].data
+    }
   }
 };
 </script>

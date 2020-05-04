@@ -224,6 +224,16 @@ export default {
           this.seriesSelected.push(outterIndex)
       }
     },
+  },
+  watch:{
+    option(){
+      this.legend.data = this.option.legend.data
+      this.data = this.option.series[0].data
+      this.chartData.coordinates = []
+      for(let item of this.option.series){
+        this.chartData.coordinates.push({name:item.name,coors:item.data})
+      }
+    }
   }
 };
 </script>

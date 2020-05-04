@@ -1,10 +1,6 @@
 <template>
   <div>
-      <el-row>
-      <el-col class="head">
-        图表编辑工具
-      </el-col>
-    </el-row>
+      <ChartHead></ChartHead>
     <el-row class="wrapper">
       <el-col class="menu">
         <el-tabs type="border-card">
@@ -28,10 +24,13 @@
         <ScatterForm :option="option" :myChart="myChart" :type="'scatter'"></ScatterForm>
       </el-col>
     </el-row>
+    <Reset @reset="reset"></Reset>
+    <Save :option="option" :isNew="isNew"></Save>
   </div>
 </template>
 
 <script>
+import ChartHead from "@/components/ChartHead.vue";
 import Title from "@/components/Title.vue";
 import AxisLayout from "@/components/AxisLayout.vue";
 import LineStyle from "@/components/LineStyle.vue";
@@ -39,18 +38,24 @@ import LineSize from "@/components/LineSize.vue";
 import ScatterForm from "@/components/ScatterForm.vue";
 import Legend from "@/components/Legend.vue";
 import CodeEditor from "@/components/CodeEditor.vue";
+import Save from '@/components/Save.vue'
+import Reset from "@/components/Reset.vue";
 export default {
   components: {
+    ChartHead,
     Title,
     AxisLayout,
     LineStyle,
     LineSize,
     ScatterForm,
     Legend,
-    CodeEditor
+    CodeEditor,
+    Save,
+    Reset
   },
   data() {
     return {
+      isNew: true,
       myChart: {}, //echarts实例
       option: {} //存储图表配置
     };
@@ -59,21 +64,51 @@ export default {
     // 基于准备好的dom，初始化echarts实例
     //ref绑定，减少获取DOM节点的消耗
     this.myChart = this.$echarts.init(this.$refs.main);
-    this.drawBar();
+  },
+  activated(){
+    this.init()
   },
   methods: {
+    init() {
+      this.isNew = this.$route.params.isNew;
+      if (this.isNew) {
+        if(sessionStorage[this.$route.params.type]){
+          this.option = JSON.parse(sessionStorage[this.$route.params.type])
+          this.myChart.setOption(this.option);
+        }else{
+          this.drawScatter();
+        }
+      } else {
+        let option = JSON.parse(localStorage.options)[this.$route.params.number]
+          .option;
+        if (option) {
+          this.option = option;
+          this.myChart.setOption(this.option);
+        }
+      }
+    },
+    reset() {
+      console.log("reset");
+      this.drawScatter();
+    },
     //配置代码option
-    drawBar() {
+    drawScatter() {
       // 绘制图表
       this.option = {
         title: {
+          show: true,
           text: "示例",
           subtext: "副标题",
           left: "left"
         },
         tooltip: {},
         grid: {},
-        legend: { data: ["one", "two"], left: "10%" },
+        legend: { show: true,
+          data: ["one", "two"],
+          left: "10%",
+          top: "0%",
+          orient: "horizontal",
+          type: "plain" },
         toolbox: {
           feature: {
             saveAsImage: {}
@@ -81,20 +116,23 @@ export default {
         },
         xAxis: {
             scale:true,
-          //data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
           axisLabel: {
             rotate: 0,
             interval: 0,
-            inside: false
-          }
+            inside: false,
+            show: true
+          },
+          position: 'bottom'
         },
         yAxis: {
             scale:true,
           axisLabel: {
             rotate: 0,
             interval: 0,
-            inside: false
-          }
+            inside: false,
+            show: true
+          },
+          position: 'left'
         },
         series: [
           {

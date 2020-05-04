@@ -45,7 +45,12 @@ export default {
   },
   watch:{
     option:function(){
-      //this.roseType = this.option.legend.show !== undefined ? this.option.legend.show : true
+      this.roseType = this.option.series[0].roseType
+      if(this.roseType == ''){
+        this.roseTypeBool = false
+      }else{
+        this.roseTypeBool = true
+      }
     }
   }
 };

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-row>
-      <el-col class="head">
-        图表编辑工具
-      </el-col>
-    </el-row>
+    <ChartHead></ChartHead>
     <el-row class="wrapper">
       <el-col class="menu">
         <el-tabs type="border-card">
@@ -26,20 +22,26 @@
         <PieForm :option="option" :myChart="myChart"></PieForm>
       </el-col>
     </el-row>
+    <Reset @reset="reset"></Reset>
+    <Save :option="option" :isNew="isNew"></Save>
   </div>
 </template>
 
 <script>
+import ChartHead from "@/components/ChartHead.vue";
 import Title from "@/components/Title.vue";
 import Legend from "@/components/Legend.vue";
 import RoseType from "@/components/RoseType.vue";
 import PieSize from "@/components/PieSize.vue";
 import PieForm from "@/components/PieForm.vue";
 import CodeEditor from '@/components/CodeEditor.vue'
+import Save from '@/components/Save.vue'
+import Reset from "@/components/Reset.vue";
 export default {
-  components: { Title, Legend, RoseType, PieSize, PieForm, CodeEditor },
+  components: { ChartHead,Title, Legend, RoseType, PieSize, PieForm, CodeEditor ,Save,Reset},
   data() {
     return {
+      isNew: true,
       myChart: {}, //echarts实例
       option: {}, //存储图表配置
     };
@@ -48,9 +50,34 @@ export default {
     // 基于准备好的dom，初始化echarts实例
     //ref绑定，减少获取DOM节点的消耗
     this.myChart = this.$echarts.init(this.$refs.main);
-    this.drawPie();
+    
+  },
+  activated(){
+    this.init()
   },
   methods: {
+    init() {
+      this.isNew = this.$route.params.isNew;
+      if (this.isNew) {
+        if(sessionStorage[this.$route.params.type]){
+          this.option = JSON.parse(sessionStorage[this.$route.params.type])
+          this.myChart.setOption(this.option);
+        }else{
+          this.drawPie();
+        }
+      } else {
+        let option = JSON.parse(localStorage.options)[this.$route.params.number]
+          .option;
+        if (option) {
+          this.option = option;
+          this.myChart.setOption(this.option);
+        }
+      }
+    },
+    reset() {
+      console.log("reset");
+      this.drawPie();
+    },
     //配置代码option
     drawPie() {
       this.option = {
@@ -66,7 +93,8 @@ export default {
           top: "0%",
           orient: "horizontal",
           show: true,
-          data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"]
+          data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"],
+          type: "plain"
         },
         toolbox: {
           feature: {
